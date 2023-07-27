@@ -1,15 +1,25 @@
 /* eslint-disable react/prop-types */
-import { MapContainer, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import * as L from "leaflet";
 
 function Map({ lat, lng }) {
-  return (
-    <MapContainer center={[lat, lng]} zoom={12} scrollWheelZoom={false}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
-    </MapContainer>
-  );
+  var container = L.DomUtil.get("map");
+  if (container != null) {
+    container._leaflet_id = null;
+  }
+  const map = L.map("map").setView([lat, lng], 13);
+
+  const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 35,
+  }).addTo(map);
+  var locationIcon = L.icon({
+    iconUrl: locIcon,
+    iconSize: [40, 45], // size of the icon
+  });
+
+  const marker = L.marker([lat, lng], {
+    icon: "X",
+  }).addTo(map);
 }
 
 export default Map;
