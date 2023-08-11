@@ -1,14 +1,15 @@
 import { useState } from "react";
-import Form from "./components/Form";
+import { useFetch } from "./hook/useFetch";
+
 import Header from "./components/Header";
+import Form from "./components/Form";
 import Information from "./components/Information";
+import Map from "./components/Map";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 
-import Map from "./components/Map";
-import { useFetch } from "./components/useFetch";
-
-const API_KEY = "at_wdjJOZwCrhbjXHDL1zxGjirWXB8Kd";
+const BASE_URL =
+  "https://geo.ipify.org/api/v2/country,city?apiKey=at_wdjJOZwCrhbjXHDL1zxGjirWXB8Kd";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -17,15 +18,11 @@ function App() {
     fetchedData: information,
     isLoading,
     error,
-  } = useFetch(
-    `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}&ipAddress=${query}`
-  );
+  } = useFetch(BASE_URL, query);
 
   function handleSubmitForm(search) {
     setQuery(search);
   }
-
-  console.log(query);
 
   return (
     <>

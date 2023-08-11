@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 const Information = ({ information }) => {
-  console.log(information);
+  // console.log(information);
 
   return (
     <div className="information">
