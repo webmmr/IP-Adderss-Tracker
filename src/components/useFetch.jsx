@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export function useFetch(url) {
-  const [info, setInfo] = useState([]);
+  const [fetchedData, setFetchedData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -17,9 +17,11 @@ export function useFetch(url) {
 
         const data = await res.json();
 
-        if (data.Response === "False") throw new Error("Movie not found");
+        if (data.messages) {
+          throw new Error(data.messages);
+        }
 
-        setInfo(data);
+        setFetchedData(data);
         setError("");
       } catch (err) {
         console.log(err.message);
@@ -31,7 +33,7 @@ export function useFetch(url) {
     getInfo();
   }, [url]);
 
-  console.log(info);
+  console.log(fetchedData);
 
-  return { info, isLoading, error };
+  return { fetchedData, isLoading, error };
 }

@@ -1,25 +1,34 @@
 /* eslint-disable react/prop-types */
-import "leaflet/dist/leaflet.css";
-import * as L from "leaflet";
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 
-function Map({ lat, lng }) {
-  var container = L.DomUtil.get("map");
-  if (container != null) {
-    container._leaflet_id = null;
-  }
-  const map = L.map("map").setView([lat, lng], 13);
+import styles from "./Map.module.css";
 
-  const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 35,
-  }).addTo(map);
-  var locationIcon = L.icon({
-    iconUrl: locIcon,
-    iconSize: [40, 45], // size of the icon
-  });
+function Map({ mapLat, mapLng }) {
+  const [mapPosition, setMapPosition] = useState(10, 10);
 
-  const marker = L.marker([lat, lng], {
-    icon: "X",
-  }).addTo(map);
+  useEffect(() => {
+    if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+  }, [mapLat, mapLng]);
+
+  return (
+    <div className={styles.mapContainer}>
+      <MapContainer
+        center={mapPosition}
+        // center={[mapLat, mapLng]}
+        zoom={9}
+        scrollWheelZoom={true}
+        className={styles.map}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+        />
+
+        <Marker position={[mapLat, mapLng]}></Marker>
+      </MapContainer>
+    </div>
+  );
 }
 
 export default Map;
