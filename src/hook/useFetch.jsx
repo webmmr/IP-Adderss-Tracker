@@ -42,7 +42,5 @@ export function useFetch(url, query) {
     };
   }, [url, query]);
 
-  console.log(fetchedData, isLoading, error);
-
   return { fetchedData, isLoading, error };
 }
